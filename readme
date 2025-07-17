@@ -1,0 +1,119 @@
+# Predictive Analytics for Employee Attrition
+
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Gemini API](https://img.shields.io/badge/Google_Gemini-8E75B8?style=for-the-badge&logo=google-gemini&logoColor=white)
+
+A smart, AI-powered HR dashboard designed to proactively identify employees at risk of leaving. This application leverages the Google Gemini API to analyze employee data and even updated resumes, providing actionable insights for effective retention strategies.
+
+**[➡️ Live Demo (Coming Soon)](#)**
+
+![Attrition Prediction Dashboard Screenshot](https://raw.githubusercontent.com/hereandnowai/images/main/demos/attrition-prediction-dashboard-demo.png)
+
+## ✨ Core Features
+
+*   **🤖 AI-Powered Attrition Prediction**: Select any employee to receive an instant, AI-generated attrition risk score (0-100), calculated by the Gemini model based on their key employment metrics.
+
+*   **🎯 Actionable Insights & Retention Strategies**: The AI doesn't just provide a score. It identifies the **key risk factors** (e.g., salary stagnation, low engagement) and recommends **tailored retention strategies** to address the specific issues for each employee.
+
+*   **📄 Deep Resume Analysis**: Go beyond structured data. Paste an employee's updated resume to get a re-evaluated risk score. The AI compares their existing data with the resume to identify new skills, positive signals of growth, or potential job-seeking indicators.
+
+*   **📊 Interactive Dashboard & Visualizations**: Get a high-level overview of organizational health with dynamic KPIs and charts:
+    *   Total and high-risk employee counts.
+    *   Average attrition risk score across all analyzed employees.
+    *   A pie chart showing the distribution of employees across Low, Medium, and High risk levels.
+    *   A bar chart breaking down the average risk score by department.
+
+*   **🎨 Customizable Themes**: Switch between Light, Dark, and a special "Bright" theme to match your viewing preference. All themes are designed to be accessible and visually pleasing.
+
+## 🧠 How It Works
+
+The core of this application's intelligence resides in `services/geminiService.ts`, which orchestrates the interaction with the Google Gemini API.
+
+1.  **Data & Prompting**: When an employee is selected, the application constructs a detailed, context-rich prompt. It formats the employee's data and instructs the Gemini model to act as an expert HR predictive analyst.
+
+2.  **Structured Output Request**: The prompt is sent to the `gemini-2.5-flash` model. Crucially, the request specifies a `responseSchema`, forcing the model to return a clean, predictable JSON object, eliminating the need for complex string parsing.
+
+3.  **API Call & Response**: The `getAttritionPrediction` function sends the request to the Gemini API. The API processes the prompt and returns the structured JSON data.
+
+4.  **State Update & UI Rendering**: The application parses the JSON response and updates its state in React. This state change triggers a re-render of the components, seamlessly displaying the new risk score, risk factors, and retention strategies in the UI.
+
+5.  **Resume Analysis**: A similar flow is used for resume analysis. The prompt includes both existing data and the new resume text, asking the AI to perform a comparative analysis.
+
+## 🛠️ Tech Stack
+
+*   **Frontend**: React, TypeScript
+*   **AI Engine**: Google Gemini API (`@google/genai`)
+*   **Styling**: Tailwind CSS
+*   **Data Visualization**: Recharts
+*   **Icons**: Lucide React
+*   **Module Loading**: esm.sh for efficient, on-the-fly dependency management via browser Import Maps.
+
+## 🚀 Getting Started
+
+This project is designed to run in a web environment where the Gemini API key is securely managed.
+
+### Prerequisites
+
+*   A **Google Gemini API Key**.
+*   Node.js and npm (or a similar package manager) to run a local server.
+
+### Setup Instructions
+
+1.  **Clone the Repository**:
+    ```bash
+    git clone https://github.com/hereandnowai/attrition-prediction-dashboard.git
+    cd attrition-prediction-dashboard
+    ```
+
+2.  **Environment Variable**: This application requires a Google Gemini API key. The code is designed to securely access it from an environment variable named `API_KEY`. **Do not hardcode your key in the source code.** You must ensure this variable is set in the execution environment where you deploy or run the app.
+
+3.  **Serve the Files**: Due to browser security policies that restrict ES module imports from local files (`file://`), you must serve the project files using a local web server. The simplest way is using `npx serve`.
+
+    ```bash
+    npx serve .
+    ```
+    Alternatively, you can use Python's built-in server:
+    ```bash
+    # For Python 3
+    python -m http.server
+    ```
+
+4.  **View in Browser**: Open your browser and navigate to the URL provided by the server (e.g., `http://localhost:3000` or `http://localhost:8000`).
+
+## 📁 Project Structure
+
+```
+.
+├── index.html          # Main HTML entry point, defines import maps and themes.
+├── index.tsx           # React application root, mounts the App component.
+├── App.tsx             # Main app component, handles layout and theme provider.
+├── metadata.json       # Application metadata.
+├── README.md           # This documentation file.
+├── types.ts            # TypeScript type definitions for all data models.
+├── components/         # Reusable React components
+│   ├── Dashboard.tsx       # Main dashboard layout and state management hub.
+│   └── ...
+└── services/           # Logic for data fetching and external services.
+    ├── geminiService.ts  # Core logic for interacting with the Google Gemini API.
+    └── mockData.ts       # Sample employee data for demonstration purposes.
+```
+
+## 💡 Customization & Extension
+
+*   **Connect to Real Data**: The most impactful change is to replace `services/mockData.ts` with an API call to your actual HRIS (Human Resources Information System) to work with live, real-time employee data.
+*   **Tune the AI Prompts**: Modify the prompts and schemas in `geminiService.ts` to change the AI's behavior. You could ask for different types of analysis, adjust the tone, or request additional data points in the JSON output.
+*   **Implement the Feedback Loop**: The "Feedback" buttons in the UI are currently static. You could connect them to a backend to log which strategies were effective, creating a valuable dataset for future analysis or even for fine-tuning models.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/hereandnowai/attrition-prediction-dashboard/issues) of the project.
+
+## 📄 License
+
+This project is open-source, licensed under the MIT License.
+
+---
+
+Developed with ❤️ by the **HERE AND NOW AI** product engineering team.
